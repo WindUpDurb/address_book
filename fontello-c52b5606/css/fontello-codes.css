@@ -1,0 +1,5 @@
+
+.icon-heart:before { content: '\e800'; } /* '' */
+.icon-search:before { content: '\e801'; } /* '' */
+.icon-mail:before { content: '\e802'; } /* '' */
+.icon-sort-alphabet:before { content: '\e803'; } /* '' */
