@@ -3,7 +3,7 @@ body {
 }
 
 #newContact {
-
+    float: left
 }
 
 .search {
@@ -26,10 +26,9 @@ body {
 }
 
 #addressList {
-    width: 60%;
-    float: right;
+    width: 50%;
     margin-top: 20px;
-    margin-right: 35px;
+    margin-left: 35px;
 
 }
 
@@ -45,4 +44,13 @@ ul > li> img {
 
 ::-webkit-input-placeholder {
     color: lightslategrey;
+}
+
+#contactInfoDiv {
+    position: relative;
+    background-color: white;
+    float: right;
+    width: 30%;
+    margin-top: 20px;
+    margin-right: 35px;
 }
