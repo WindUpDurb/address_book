@@ -7,7 +7,7 @@
     <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
     <!--BootStrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <!--Material CSS files-->
     <link rel="stylesheet" href="material.min.css">
     <script src="material.min.js"></script>
@@ -29,20 +29,57 @@
         <!--Search Bar-->
         <div class="row search">
             <div class="searchColumn col-lg-6">
-                <div class="search-input input-group">
-                    <input type="text" class="search-input form-control" placeholder="Contact Search">
-                    <span class="input-group-btn">
-                        <button class="btn btn-small btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </span>
+                <div class="text-input-container">
+                    <input type="text" class="text-input border-green-500" placeholder="Search Contacts"/>
                 </div>
             </div>
         </div>
     </div>
 
 
+    <button data-toggle="modal" data-target="#myModal"  id="newContact" class="fab bg-red-500 color-white"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Enter New Contact Information</h4>
+                </div>
+                <div class="modal-body">
+
+                    <input type="text" id="newFullName" class="contactEntry text-input" placeholder="Full Name"/>
+
+                    <hr>
+
+                    <input type="text" id="newEmail" class="contactEntry text-input" placeholder="Email Address"/>
+
+                    <hr>
+
+                    <input type="text" id="newAddress" class="contactEntry text-input" placeholder="Address"/>
+
+                    <hr>
+
+                    <input type="text" id="newNumber" class="contactEntry text-input" placeholder="Telephone Number"/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="saveChanges" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!--Address List-->
     <div id="addressList">
-        <ul class="list">
+        <ul class="list addressBook">
+
         <li ripple>
             <img class="item-icon" src="addressBookTest.jpg"/>
 		<span class="item-text">
@@ -51,8 +88,17 @@
 				durbina1991@gmail.com
 			</span>
 		</span>
-            <i class="icon-message item-action"></i>
         </li>
+
+            <li ripple>
+                <img class="item-icon" src="http://www.azquotes.com/public/pictures/authors/78/a6/78a60e641352bf87c2a6f911b34d645d/53b14a97f1435_haruki_murakami.jpg"/>
+		<span class="item-text">
+			Haruki Murakami
+			<span class="secondary-text">
+				murakami@fake.com
+			</span>
+		</span>
+            </li>
         </ul>
     </div>
 
