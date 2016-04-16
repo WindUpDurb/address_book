@@ -1,6 +1,7 @@
 
 
-
+//for future drafts:
+//fix the additional information div--doesn't close are erasing a contact
 
 
 var operations = {
