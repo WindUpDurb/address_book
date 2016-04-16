@@ -39,7 +39,7 @@
 
     <button data-toggle="modal" data-target="#myModal"  id="newContact" class="fab bg-red-500 color-white"><i class="fa fa-plus" aria-hidden="true"></i></button>
 
-    <!-- Modal -->
+    <!-- Modal For Add Contact -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -65,6 +65,10 @@
 
                     <input type="text" id="newNumber" class="contactEntry text-input" placeholder="Telephone Number"/>
 
+                    <hr>
+
+                    <input type="text" id="newImage" class="contactEntry text-input" placeholder="Photo URL"/>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -73,6 +77,22 @@
             </div>
         </div>
     </div>
+
+
+    <!--Modal for Remove Contact-->
+    <div class="modal fade bs-example-modal-sm" id="removeContactModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <h2>Confirm to Delete Contact</h2>
+                <br>
+                <br>
+                <h1><span id="deleteContactName"></span></h1>
+                <br>
+                <button id="deleteContact" class="btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -103,22 +123,39 @@
     </div>
 
 
-    <!--This will be the contact info div-->
-    <!--<div id="contactInfoDiv">-->
 
-        <!--<span id="contactName"></span>-->
+    <div id="contactInfoDiv">
 
-        <!--<input readonly type="text" id="contactNumber" class="contactEntry text-input" placeholder="Telephone Number"/>-->
+        <h1><span class="contactInfoTags" id="contactName"></span></h1>
+        <img id="contactImage"></img>
+        <br>
+        <br>
+        <br>
+        <hr>
 
-        <!--<hr>-->
+        <div>
+            <span class="contactInfoTags">Phone Number:</span>
+            <span class="contactDetails" id="contactNumber"></span>
+        </div>
 
-        <!--<input readonly type="text" id="contactEmail" class="contactEntry text-input" placeholder="Email Address"/>-->
 
-        <!--<hr>-->
+        <hr>
 
-        <!--<input type="text" id="newNumber" class="contactEntry text-input" placeholder="Physical Address"/>-->
 
-    <!--</div>-->
+        <div>
+            <span class="contactInfoTags">Email Address:</span>
+            <span class="contactDetails" id="contactEmail"></span>
+        </div>
+
+        <hr>
+
+        <div>
+            <span class="contactInfoTags">Physical Address:</span>
+            <span class="contactDetails" id="contactAddress"></span>
+        </div>
+
+
+    </div>
 
 
 </body>

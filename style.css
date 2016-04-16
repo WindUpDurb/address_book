@@ -27,7 +27,7 @@ body {
 }
 
 #addressList {
-    width: 50%;
+    width: 40%;
     margin-top: 20px;
     margin-left: 35px;
 
@@ -37,6 +37,17 @@ ul {
     background-color: #ECEFF1;
 }
 
+.contactInfoTags {
+    float: left;
+}
+
+#contactImage {
+    float: right;
+    max-height: 75px;
+    max-width: 75px;
+    margin-right: 6px;
+    margin-bottom: 20px;
+}
 
 ul > li> img {
     margin-top: 8px;
@@ -49,10 +60,17 @@ ul > li> img {
 }
 
 #contactInfoDiv {
-    position: relative;
+    text-align: center;
     background-color: white;
     float: right;
     width: 30%;
+    max-width: 375px;
+    max-height: 275px;
     margin-top: 20px;
     margin-right: 35px;
+}
+
+#removeContactModal {
+    margin-top: 15%;
+    text-align: center;
 }

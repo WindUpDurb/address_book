@@ -21,59 +21,69 @@ var operations = {
     },
 
     //to generate a new JSON object for the contact
-    ContactProfile : function (name, email, address, number) {
+    ContactProfile : function (name, email, address, number, url) {
         this.name = name;
         this.email = email;
         this.address = address;
         this.phoneNumber = number;
+        this.image = url;
     },
 
     //response to submit button with filled-out information
     submitNewContact : function () {
         var saveContactButton = $("#saveChanges");
         saveContactButton.click(function () {
-            let $name = $("#newFullName").val();
-            let $email = $("#newEmail").val();
-            let $address = $("#newAddress").val();
-            let $number = $("#newNumber").val();
-            //create li element
-            operations.createEntryElement($name, $email, $address, $number);
+            var $name = $("#newFullName").val();
+            var $email = $("#newEmail").val();
+            var $address = $("#newAddress").val();
+            var $number = $("#newNumber").val();
+            var $image = $("#newImage").val() || "http://dev.alurosu.com/bobo/chat/data/img/admin/default.png";
+
             //create JSON object
-            operations.createNewLocalEntry($name, $email, $address, $number);
+            var jsonContact = operations.createNewLocalEntry($name, $email, $address, $number, $image);
+            //create li element
+            operations.createEntryElement($name, $email, $address, $number, $image, jsonContact);
             $('#myModal').modal('hide');
+            //clear fields
+            $("#newFullName").val("");
+            $("#newEmail").val("");
+            $("#newAddress").val("");
+            $("#newNumber").val("");
+            $("#newImage").val("")
         });
     },
 
     //add entry to array of contact-objects on local storage;
-    createNewLocalEntry : function (name, email, address, number) {
-        var newJSONObject = new operations.ContactProfile(name, email, address, number);
+    createNewLocalEntry : function (name, email, address, number, url) {
+        var newJSONObject = new operations.ContactProfile(name, email, address, number, url);
         var storedContacts = operations.getNames();
         storedContacts.push(newJSONObject);
         operations.writeNamesLocal(storedContacts);
+        return newJSONObject;
     },
 
     //create li element for the actual address book
-    createEntryElement : function (name, email, address, phone) {
+    createEntryElement : function (name, email, address, phone, image, jsonContact) {
         var addressBook = $(".addressBook");
-        var $li = $("<li ripple>");
+        var $li = $("<li ripple>").attr("id", name);
         //have img accept a url
-        var $image = $("<img>").addClass("item-icon").attr("src", "http://dev.alurosu.com/bobo/chat/data/img/admin/default.png");
+        var $image = $("<img>").addClass("item-icon").attr("src", image);
         var $firstSpan = $("<span>").addClass("item-text").text(name);
         var $secondSpan = $("<span>").addClass("secondary-text").text(email);
-
         $li.append($image);
         $li.append($firstSpan);
         $firstSpan.append($secondSpan);
-
         addressBook.append($li);
 
     },
 
     //render the contact list on load
     renderContactsOnLoad : function () {
+        //hide additional information div
+        //$("#contactInfoDiv").hide();
         var contacts = operations.getNames();
         contacts.forEach(function (item) {
-            operations.createEntryElement(item.name, item.email, item. address, item.phoneNumber);
+            operations.createEntryElement(item.name, item.email, item. address, item.phoneNumber, item.image);
 
         });
     }
@@ -84,29 +94,63 @@ var operations = {
 
 
 
-//var testObject = new operations.ContactProfile("stuff", "here", "and", "there");
-
-
-//create a div to populate with further contact info
-/*let populateContactInfo = function (contact) {
+let clickContact = function () {
     var contactEntry = $("li");
     contactEntry.click(function () {
-        //use filter
-        var array = $(this).text().replace(/\W/gi, " ").split(" ");
-        var arrayOfInfo = array.forEach(function (item) {
-            var results = [];
-            if (item.length > 2) {
-                results.push(item);
+        var contactName = $(this).find(".item-text").text();
+        var localStorage = operations.getNames();
+        var clickedContactName;
+
+        for (var i in localStorage) {
+            if (localStorage[i].name + localStorage[i].email === contactName) {
+                console.log(localStorage[i]);
+                openAdditionalDetails(localStorage[i]);
+                clickedContactName = localStorage[i].name;
             }
-            return results;
-        })
-        console.log(array)
-        console.log(arrayOfInfo)
-        $("#contactNumber").attr("placeholder", $(this > "#itemText").text());
+        };
 
+
+        contactEntry.dblclick(function () {
+            $("#removeContactModal").modal("show");
+            $("#deleteContactName").text(clickedContactName)
+        });
+
+    });
+};
+
+
+let deleteContact = function () {
+    $("#deleteContact").click(function () {
+        var contactToDelete = $("#deleteContactName").text();
+        var localStorage = operations.getNames();
+        var toUpdateWith = localStorage.map(function (item) {
+            if (item.name !== contactToDelete) {
+                return item;
+            }
+        }).filter(function (item) {
+            return (item);
+        });
+
+        operations.writeNamesLocal(toUpdateWith);
+
+        $("#removeContactModal").modal("hide");
+        //update list
+        $("#" + contactToDelete).remove();
     })
+};
 
-}*/
+
+
+let openAdditionalDetails = function (jsonContactObject) {
+    $("#contactInfoDiv").show();
+    $("#contactName").text(jsonContactObject.name);
+    $("#contactNumber").text(jsonContactObject.phoneNumber);
+    $("#contactEmail").text(jsonContactObject.email);
+    $("#contactAddress").text(jsonContactObject.address);
+    $("#contactImage").attr("src", jsonContactObject.image)
+
+
+};
 
 
 
@@ -114,6 +158,8 @@ var operations = {
 let initialize = function () {
     operations.submitNewContact();
     operations.renderContactsOnLoad();
+    deleteContact();
+    clickContact();
 };
 
 
