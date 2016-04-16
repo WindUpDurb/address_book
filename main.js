@@ -65,7 +65,7 @@ var operations = {
     //create li element for the actual address book
     createEntryElement : function (name, email, address, phone, image, jsonContact) {
         var addressBook = $(".addressBook");
-        var $li = $("<li ripple>").attr("id", name);
+        var $li = $("<li ripple>").attr("id", name.split(" ").join(""));
         //have img accept a url
         var $image = $("<img>").addClass("item-icon").attr("src", image);
         var $firstSpan = $("<span>").addClass("item-text").text(name);
@@ -74,92 +74,84 @@ var operations = {
         $li.append($firstSpan);
         $firstSpan.append($secondSpan);
         addressBook.append($li);
-
+        operations.clickContact();
     },
 
     //render the contact list on load
     renderContactsOnLoad : function () {
         //hide additional information div
-        //$("#contactInfoDiv").hide();
+        $("#contactInfoDiv").hide();
         var contacts = operations.getNames();
         contacts.forEach(function (item) {
             operations.createEntryElement(item.name, item.email, item. address, item.phoneNumber, item.image);
 
         });
+    },
+
+    //click events
+    clickContact : function () {
+        var contactEntry = $("li");
+        contactEntry.click(function () {
+            var contactName = $(this).find(".item-text").text();
+            var localStorage = operations.getNames();
+            var clickedContactName;
+            for (var i in localStorage) {
+                if (localStorage[i].name + localStorage[i].email === contactName) {
+                    console.log(localStorage[i]);
+                    operations.openAdditionalDetails(localStorage[i]);
+                    clickedContactName = localStorage[i].name;
+                }
+            };
+            //double click to delete contact
+            contactEntry.dblclick(function () {
+                $("#removeContactModal").modal("show");
+                $("#deleteContactName").text(clickedContactName)
+            });
+        });
+    },
+
+
+    //delete contact event
+    deleteContact : function () {
+        $("#deleteContact").click(function () {
+            var contactToDelete = $("#deleteContactName").text();
+            var localStorage = operations.getNames();
+            var toUpdateWith = localStorage.map(function (item) {
+                if (item.name !== contactToDelete) {
+                    return item;
+                }
+            }).filter(function (item) {
+                return (item);
+            });
+            //update local storage
+            operations.writeNamesLocal(toUpdateWith);
+            //remove modal
+            $("#removeContactModal").modal("hide");
+            //update list
+            console.log("#" + contactToDelete.split(" ").join(""));
+            $("#" + contactToDelete.split(" ").join("")).remove();
+        })
+    },
+
+    //open additional contact info div
+    openAdditionalDetails : function (jsonContactObject) {
+        $("#contactInfoDiv").show();
+        $("#contactName").text(jsonContactObject.name);
+        $("#contactNumber").text(jsonContactObject.phoneNumber);
+        $("#contactEmail").text(jsonContactObject.email);
+        $("#contactAddress").text(jsonContactObject.address);
+        $("#contactImage").attr("src", jsonContactObject.image)
     }
 
 };
 
 
-
-
-
-let clickContact = function () {
-    var contactEntry = $("li");
-    contactEntry.click(function () {
-        var contactName = $(this).find(".item-text").text();
-        var localStorage = operations.getNames();
-        var clickedContactName;
-
-        for (var i in localStorage) {
-            if (localStorage[i].name + localStorage[i].email === contactName) {
-                console.log(localStorage[i]);
-                openAdditionalDetails(localStorage[i]);
-                clickedContactName = localStorage[i].name;
-            }
-        };
-
-
-        contactEntry.dblclick(function () {
-            $("#removeContactModal").modal("show");
-            $("#deleteContactName").text(clickedContactName)
-        });
-
-    });
-};
-
-
-let deleteContact = function () {
-    $("#deleteContact").click(function () {
-        var contactToDelete = $("#deleteContactName").text();
-        var localStorage = operations.getNames();
-        var toUpdateWith = localStorage.map(function (item) {
-            if (item.name !== contactToDelete) {
-                return item;
-            }
-        }).filter(function (item) {
-            return (item);
-        });
-
-        operations.writeNamesLocal(toUpdateWith);
-
-        $("#removeContactModal").modal("hide");
-        //update list
-        $("#" + contactToDelete).remove();
-    })
-};
-
-
-
-let openAdditionalDetails = function (jsonContactObject) {
-    $("#contactInfoDiv").show();
-    $("#contactName").text(jsonContactObject.name);
-    $("#contactNumber").text(jsonContactObject.phoneNumber);
-    $("#contactEmail").text(jsonContactObject.email);
-    $("#contactAddress").text(jsonContactObject.address);
-    $("#contactImage").attr("src", jsonContactObject.image)
-
-
-};
-
-
-
-
+//initialize function
 let initialize = function () {
     operations.submitNewContact();
     operations.renderContactsOnLoad();
-    deleteContact();
-    clickContact();
+    operations.deleteContact();
+    operations.clickContact();
 };
 
 

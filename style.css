@@ -29,8 +29,8 @@ body {
 #addressList {
     width: 40%;
     margin-top: 20px;
-    margin-left: 35px;
-
+    display: inline-block;
+    margin-right: 5px;
 }
 
 ul {
@@ -63,14 +63,16 @@ ul > li> img {
     text-align: center;
     background-color: white;
     float: right;
+    display: inline-block;
     width: 30%;
     max-width: 375px;
     max-height: 275px;
+    margin-left: 70px;
     margin-top: 20px;
-    margin-right: 35px;
 }
 
 #removeContactModal {
     margin-top: 15%;
     text-align: center;
 }
+
