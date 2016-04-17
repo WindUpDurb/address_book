@@ -1,9 +1,5 @@
 
 
-//for future drafts:
-//fix the additional information div--doesn't close are erasing a contact
-
-
 var operations = {
 
     //obtain the array of contact-objects on local storage
@@ -128,6 +124,7 @@ var operations = {
             operations.writeNamesLocal(toUpdateWith);
             //remove modal
             $("#removeContactModal").modal("hide");
+            $("#contactInfoDiv").hide();
             //update list
             console.log("#" + contactToDelete.split(" ").join(""));
             $("#" + contactToDelete.split(" ").join("")).remove();
